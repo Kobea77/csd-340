@@ -1,2 +1,6 @@
-# cds-340
-Repo For csd-340 Web Development
+# CSD 340 Web Development with HTML and CSS
+
+## Contributors
+
+- Sue Sampson
+- Kobe Alexander
