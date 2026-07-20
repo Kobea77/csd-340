@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Name: Kobe Alexander
+        Assignment: Module 9.3 - JavaScript Part 1
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Assignment 9.3: JavaScript - Part 1">
+    <meta name="keywords" content="HTML, CSS, CSD 340, Bellevue University">
+    <meta name="author" content="Kobe Alexander">
+
+    <title>CSD 340 Web Development with HTML and CSS</title>
+
+    <script>
+        // Variables containing the missing words
+        const wordOne = "technology";
+        const wordTwo = "creative";
+        const wordThree = "challenging";
+        const wordFour = "future";
+    </script>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <h1>Assignment 9.3: JavaScript - Part 1</h1>
+
+        <h2>My Experience Learning Web Development</h2>
+
+        <p>
+            Learning web development has helped me better understand how
+            <span id="technology">__________</span>
+            is used to create websites. HTML provides the structure of a page,
+            while CSS controls its appearance and layout.
+        </p>
+
+        <p>
+            One of the things I enjoy most about web development is being
+            <span id="creative">__________</span>.
+            I can experiment with colors, images, fonts, and different page
+            layouts to create a website that looks unique.
+        </p>
+
+        <p>
+            Some parts of programming can be
+            <span id="challenging">__________</span>,
+            especially when code does not work as expected. However, solving
+            those problems helps me improve my skills and prepares me for a
+            career in the
+            <span id="future">__________</span>.
+        </p>
+
+        <p>
+            <button type="button"
+                onclick="document.getElementById('technology').innerHTML = wordOne;">
+                Technology
+            </button>
+
+            <button type="button"
+                onclick="document.getElementById('creative').innerHTML = wordTwo;">
+                Creative
+            </button>
+
+            <button type="button"
+                onclick="document.getElementById('challenging').innerHTML = wordThree;">
+                Challenging
+            </button>
+
+            <button type="button"
+                onclick="document.getElementById('future').innerHTML = wordFour;">
+                Future
+            </button>
+        </p>
+
+        <p>
+            <a href="../index.html">Back to Landing Page</a>
+        </p>
+
+    </div>
+
+</body>
+
+</html>
