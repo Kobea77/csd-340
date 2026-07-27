@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Name: Kobe Alexander
+        Assignment: Module 10.3 - JavaScript Part 2
+        File: Alexander_Mod10_3.html
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CSD 340 Web Development with HTML and CSS</title>
+
+    <style>
+        :root {
+            --accent-color: #315a7d;
+            --background-color: #f4f7fa;
+            --card-color: #ffffff;
+            --text-color: #222222;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background-color 0.4s ease;
+        }
+
+        header {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            transition: background-color 0.4s ease;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+        }
+
+        #container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        #display-card {
+            background-color: var(--card-color);
+            border: 3px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: border-color 0.4s ease;
+        }
+
+        #mainImage {
+            display: block;
+            width: 100%;
+            max-width: 650px;
+            height: 350px;
+            margin: 0 auto;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        #imageTitle {
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            transition: color 0.4s ease;
+        }
+
+        #imageDescription {
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            margin: 30px 0 15px;
+            text-align: center;
+        }
+
+        #thumbnail-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .thumbnail-card {
+            background-color: white;
+            border: 2px solid #cccccc;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .thumbnail-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+        }
+
+        .thumbnail-card:focus {
+            outline: 3px solid var(--accent-color);
+            outline-offset: 3px;
+        }
+
+        .thumbnail-card img {
+            display: block;
+            width: 100%;
+            height: 130px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .thumbnail-card p {
+            margin: 10px 0 3px;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: var(--accent-color);
+            color: white;
+            margin-top: 40px;
+            padding: 18px;
+            text-align: center;
+            transition: background-color 0.4s ease;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media screen and (max-width: 800px) {
+            #thumbnail-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            #mainImage {
+                height: 300px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            #thumbnail-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            #mainImage {
+                height: 230px;
+            }
+        }
+    </style>
+
+    <script>
+        /*
+            This function runs when an image is clicked.
+
+            It changes:
+            1. The large image
+            2. The image title
+            3. The image description
+            4. The page accent color
+            5. The page background color
+        */
+        function displayImage(
+            imageFile,
+            title,
+            description,
+            accentColor,
+            backgroundColor
+        ) {
+            const mainImage = document.getElementById("mainImage");
+            const imageTitle = document.getElementById("imageTitle");
+            const imageDescription =
+                document.getElementById("imageDescription");
+
+            mainImage.src = imageFile;
+            mainImage.alt = title;
+
+            imageTitle.textContent = title;
+            imageDescription.textContent = description;
+
+            document.documentElement.style.setProperty(
+                "--accent-color",
+                accentColor
+            );
+
+            document.documentElement.style.setProperty(
+                "--background-color",
+                backgroundColor
+            );
+        }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Assignment 10.3: JavaScript - Part 2</h1>
+        <p>Click a picture to explore a different destination.</p>
+    </header>
+
+    <main id="container">
+
+        <section id="display-card">
+            <img
+                id="mainImage"
+                src="mountainSunrise.jpg"
+                alt="Mountain Sunrise">
+
+            <h2 id="imageTitle">Mountain Sunrise</h2>
+
+            <p id="imageDescription">
+                A peaceful sunrise appears above the mountains. Click another
+                picture below to change the main display.
+            </p>
+        </section>
+
+        <section aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" class="instructions">
+                Choose Your Destination
+            </h2>
+
+            <div id="thumbnail-gallery">
+
+                <div
+                    class="thumbnail-card"
+                    role="button"
+                    tabindex="0"
+                    onclick="displayImage(
+                        'mountainSunrise.jpg',
+                        'Mountain Sunrise',
+                        'A peaceful sunrise appears above the mountains. This destination is perfect for hiking, camping, and enjoying the outdoors.',
+                        '#315a7d',
+                        '#eef6fb'
+                    )"
+                    onkeydown="if (event.key === 'Enter' || event.key === ' ') {
+                        this.click();
+                    }">
+
+                    <img
+                        src="mountainSunrise.jpg"
+                        alt="Mountain Sunrise">
+
+                    <p>Mountain Sunrise</p>
+                </div>
+
+                <div
+                    class="thumbnail-card"
+                    role="button"
+                    tabindex="0"
+                    onclick="displayImage(
+                        'sunnyBeach.jpg',
+                        'Sunny Beach',
+                        'Blue water and warm sand create a relaxing beach scene. This destination is perfect for swimming and enjoying the sunshine.',
+                        '#087e8b',
+                        '#e8fbfd'
+                    )"
+                    onkeydown="if (event.key === 'Enter' || event.key === ' ') {
+                        this.click();
+                    }">
+
+                    <img
+                        src="sunnyBeach.jpg"
+                        alt="Sunny Beach">
+
+                    <p>Sunny Beach</p>
+                </div>
+
+                <div
+                    class="thumbnail-card"
+                    role="button"
+                    tabindex="0"
+                    onclick="displayImage(
+                        'cityNight.jpg',
+                        'City at Night',
+                        'Bright lights illuminate a busy nighttime skyline. This destination is perfect for restaurants, music, shopping, and entertainment.',
+                        '#6c4ab6',
+                        '#f3effc'
+                    )"
+                    onkeydown="if (event.key === 'Enter' || event.key === ' ') {
+                        this.click();
+                    }">
+
+                    <img
+                        src="cityNight.jpg"
+                        alt="City at Night">
+
+                    <p>City at Night</p>
+                </div>
+
+                <div
+                    class="thumbnail-card"
+                    role="button"
+                    tabindex="0"
+                    onclick="displayImage(
+                        'outerSpace.jpg',
+                        'Outer Space',
+                        'The view of outer space represents adventure, discovery, and imagination beyond our planet.',
+                        '#7b2cbf',
+                        '#f5edff'
+                    )"
+                    onkeydown="if (event.key === 'Enter' || event.key === ' ') {
+                        this.click();
+                    }">
+
+                    <img
+                        src="outerSpace.jpg"
+                        alt="Outer Space">
+
+                    <p>Outer Space</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            &copy; 2026 Kobe Alexander |
+            CSD 340 Web Development with HTML and CSS
+        </p>
+    </footer>
+
+</body>
+
+</html>
