@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Name: Kobe Alexander
+        Assignment: 11.2 JavaScript - Part 3
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CSD 340 Web Development with HTML and CSS</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333333;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6912c1;
+        }
+
+        .instructions {
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .input-area {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        #todoInput {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #777777;
+            border-radius: 4px;
+        }
+
+        #deleteNumber {
+            width: 180px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #777777;
+            border-radius: 4px;
+        }
+
+        button {
+            margin: 10px 4px;
+            padding: 10px 15px;
+            background-color: #ead00a;
+            color: rgb(12, 1, 1);
+            font-size: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6912c1;
+        }
+
+        .selected-delete-area {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #cccccc;
+        }
+
+        .selected-delete-area p {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        #displayArea {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #eef3f7;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+        }
+
+        #displayArea h2 {
+            margin-top: 0;
+            color: #6912c1;
+        }
+
+        ol {
+            line-height: 1.8;
+        }
+
+        .empty-message {
+            color: #666666;
+            font-style: italic;
+        }
+
+        .back-link {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .back-link a {
+            color: #6912c1;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <h1>Assignment 11.2: JavaScript - Part 3</h1>
+
+        <p class="instructions">
+            Enter something you need to do and click Add. You can delete the
+            last item, sort the list, or enter an item number to delete a
+            specific entry.
+        </p>
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="todoInput"
+                placeholder="Enter a task"
+            >
+
+            <br>
+
+            <button type="button" onclick="addItem()">
+                Add
+            </button>
+
+            <button type="button" onclick="deleteLastEntry()">
+                Delete Last Entry
+            </button>
+
+            <button type="button" onclick="sortItems()">
+                Sort
+            </button>
+
+            <div class="selected-delete-area">
+
+                <p>Delete a Specific Item</p>
+
+                <input
+                    type="number"
+                    id="deleteNumber"
+                    min="1"
+                    placeholder="Enter item number"
+                >
+
+                <button type="button" onclick="deleteSelectedEntry()">
+                    Delete Selected Entry
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="displayArea">
+
+            <h2>Things To Do</h2>
+
+            <div id="todoDisplay">
+                <p class="empty-message">
+                    There are currently no items in the list.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="back-link">
+            <a href="../index.html">Back to Landing Page</a>
+        </div>
+
+    </div>
+
+    <script>
+        // Array that stores the user's things-to-do entries
+        const todoList = [];
+
+        /*
+            Adds the text box entry to the array.
+        */
+        function addItem() {
+            const inputBox = document.getElementById("todoInput");
+            const newItem = inputBox.value.trim();
+
+            if (newItem === "") {
+                alert("Please enter an item before selecting Add.");
+                inputBox.focus();
+                return;
+            }
+
+            todoList.push(newItem);
+
+            alert(
+                "\"" + newItem + "\" was added as item number " +
+                todoList.length + "."
+            );
+
+            inputBox.value = "";
+            inputBox.focus();
+
+            displayItems();
+        }
+
+        /*
+            Deletes the final element from the array.
+        */
+        function deleteLastEntry() {
+            if (todoList.length === 0) {
+                alert("There are no entries to delete.");
+                return;
+            }
+
+            const deletedItem = todoList.pop();
+
+            alert(
+                "\"" + deletedItem + "\" was deleted from the list."
+            );
+
+            displayItems();
+        }
+
+        /*
+            Deletes a specific item based on the number
+            entered by the user.
+        */
+        function deleteSelectedEntry() {
+            const numberBox = document.getElementById("deleteNumber");
+            const itemNumber = Number(numberBox.value);
+
+            if (todoList.length === 0) {
+                alert("There are no entries to delete.");
+                numberBox.value = "";
+                return;
+            }
+
+            if (
+                numberBox.value === "" ||
+                !Number.isInteger(itemNumber) ||
+                itemNumber < 1 ||
+                itemNumber > todoList.length
+            ) {
+                alert(
+                    "Please enter a valid item number between 1 and " +
+                    todoList.length + "."
+                );
+
+                numberBox.focus();
+                return;
+            }
+
+            /*
+                Array indexes begin at 0, but the displayed
+                list begins at 1. Subtracting 1 converts the
+                displayed item number into an array index.
+            */
+            const deletedItem = todoList.splice(itemNumber - 1, 1);
+
+            alert(
+                "\"" + deletedItem[0] +
+                "\" was deleted from item number " +
+                itemNumber + "."
+            );
+
+            numberBox.value = "";
+
+            displayItems();
+        }
+
+        /*
+            Sorts the array alphabetically.
+        */
+        function sortItems() {
+            if (todoList.length === 0) {
+                alert("There are no entries to sort.");
+                return;
+            }
+
+            todoList.sort(function(firstItem, secondItem) {
+                return firstItem.localeCompare(
+                    secondItem,
+                    undefined,
+                    { sensitivity: "base" }
+                );
+            });
+
+            alert("The things-to-do list was sorted alphabetically.");
+
+            displayItems();
+        }
+
+        /*
+            Displays every element currently in the array.
+        */
+        function displayItems() {
+            const todoDisplay = document.getElementById("todoDisplay");
+
+            if (todoList.length === 0) {
+                todoDisplay.innerHTML =
+                    '<p class="empty-message">' +
+                    'There are currently no items in the list.' +
+                    '</p>';
+
+                return;
+            }
+
+            let output = "<ol>";
+
+            for (let index = 0; index < todoList.length; index++) {
+                output +=
+                    "<li>" +
+                    escapeHTML(todoList[index]) +
+                    "</li>";
+            }
+
+            output += "</ol>";
+
+            todoDisplay.innerHTML = output;
+        }
+
+        /*
+            Prevents user input from being interpreted
+            as HTML code.
+        */
+        function escapeHTML(value) {
+            const temporaryElement = document.createElement("div");
+
+            temporaryElement.textContent = value;
+
+            return temporaryElement.innerHTML;
+        }
+
+        /*
+            Allows the Enter key to add a task while
+            the task text box is selected.
+        */
+        document
+            .getElementById("todoInput")
+            .addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    addItem();
+                }
+            });
+
+        /*
+            Allows the Enter key to delete a selected entry
+            while the item-number box is selected.
+        */
+        document
+            .getElementById("deleteNumber")
+            .addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    deleteSelectedEntry();
+                }
+            });
+    </script>
+
+</body>
+
+</html>
